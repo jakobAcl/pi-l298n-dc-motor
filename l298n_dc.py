@@ -43,7 +43,6 @@ while(1):
          print("backward")
          x='z'
 
-
     elif x=='s':
         print("stop")
         GPIO.output(in3,GPIO.LOW)
@@ -63,8 +62,7 @@ while(1):
         GPIO.output(in4,GPIO.HIGH)
         temp1=0
         x='z'
-
-    elif x=='l':
+elif x=='l':
         print("low")
         p.ChangeDutyCycle(25)
         x='z'
@@ -78,8 +76,8 @@ while(1):
         print("high")
         p.ChangeDutyCycle(75)
         x='z'
-     
-    
+
+
     elif x=='e':
         GPIO.cleanup()
         print("GPIO Clean up")
