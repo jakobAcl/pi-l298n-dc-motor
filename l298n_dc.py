@@ -62,7 +62,7 @@ while(1):
         GPIO.output(in4,GPIO.HIGH)
         temp1=0
         x='z'
-elif x=='l':
+    elif x=='l':
         print("low")
         p.ChangeDutyCycle(25)
         x='z'
