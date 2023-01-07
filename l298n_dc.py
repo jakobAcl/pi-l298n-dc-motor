@@ -5,20 +5,30 @@ from getch import getch, pause
 import RPi.GPIO as GPIO          
 from time import sleep
 
-in3 = 24
-in4 = 23
-enb = 25
+in1 = 24
+in2 = 23
+in3 = 21
+in4 = 20
+ena = 25
+enb = 16
 temp1=1
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
 GPIO.setup(in3,GPIO.OUT)
 GPIO.setup(in4,GPIO.OUT)
+GPIO.setup(ena,GPIO.OUT)
 GPIO.setup(enb,GPIO.OUT)
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
 GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
-p=GPIO.PWM(enb,1000)
+pwma=GPIO.PWM(ena,1000)
+pmwb=GPIO.PWM(enb,1000)
 
-p.start(25)
+pwma.start(25)
+pwmb.start(25)
 print("\n")
 print("The default speed & direction of motor is LOW & Forward.....")
 print("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
@@ -64,17 +74,20 @@ while(1):
         x='z'
     elif x=='l':
         print("low")
-        p.ChangeDutyCycle(25)
+        pwma.ChangeDutyCycle(25)
+        pwmb.ChangeDutyCycle(25)
         x='z'
 
     elif x=='m':
         print("medium")
-        p.ChangeDutyCycle(50)
+        pwma.ChangeDutyCycle(50)
+        pwmb.ChangeDutyCycle(50)
         x='z'
 
     elif x=='h':
         print("high")
-        p.ChangeDutyCycle(75)
+        pwma.ChangeDutyCycle(75)
+        pwmb.ChangeDutyCycle(75)
         x='z'
 
 
