@@ -10,4 +10,4 @@ I need the Logic Level Converter because I have a Raspberry Pi Zero with 3.3V
 ![Motor control](readme/Pegelwandler.png)
 
 ### The whole setup
-![Motor control](readme/Foto alles.png)
+![Motor control](readme/FotoAlles.png)
