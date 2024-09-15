@@ -5,82 +5,128 @@ from getch import getch, pause
 import RPi.GPIO as GPIO          
 from time import sleep
 
-in3 = 24
-in4 = 23
-enb = 25
+in1 = 24
+in2 = 23
+in3 = 21
+in4 = 20
+ena = 25
+enb = 16
 temp1=1
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
 GPIO.setup(in3,GPIO.OUT)
 GPIO.setup(in4,GPIO.OUT)
+GPIO.setup(ena,GPIO.OUT)
 GPIO.setup(enb,GPIO.OUT)
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
 GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
-p=GPIO.PWM(enb,1000)
+pwma=GPIO.PWM(ena,1000)
+pwmb=GPIO.PWM(enb,1000)
 
-p.start(25)
+pwma.start(25)
+pwmb.start(25)
 print("\n")
-print("The default speed & direction of motor is LOW & Forward.....")
-print("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
+print("q-righ,t w-right stop, e-right forward, r-right backward, a-left, s-left stop, d-left forward, f-left backward")
 print("\n")    
-print("push 'e' to exit")
+print("push 'x' to exit")
 print("\n")
 
 while(1):
 
     x=getch()
     
-    if x=='r':
-        print("run")
+    if x=='q':
+        print("right")
         if(temp1==1):
-         GPIO.output(in3,GPIO.HIGH)
-         GPIO.output(in4,GPIO.LOW)
-         print("forward")
+         GPIO.output(in1,GPIO.HIGH)
+         GPIO.output(in2,GPIO.LOW)
+         print("right forward")
          x='z'
         else:
-         GPIO.output(in3,GPIO.LOW)
-         GPIO.output(in4,GPIO.HIGH)
-         print("backward")
+         GPIO.output(in1,GPIO.LOW)
+         GPIO.output(in2,GPIO.HIGH)
+         print("right backward")
          x='z'
 
-
-    elif x=='s':
-        print("stop")
-        GPIO.output(in3,GPIO.LOW)
-        GPIO.output(in4,GPIO.LOW)
+    elif x=='w':
+        print("right stop")
+        GPIO.output(in1,GPIO.LOW)
+        GPIO.output(in2,GPIO.LOW)
         x='z'
 
-    elif x=='f':
-        print("forward")
+    elif x=='e':
+        print("right forward")
+        GPIO.output(in1,GPIO.HIGH)
+        GPIO.output(in2,GPIO.LOW)
+        temp1=1
+        x='z'
+
+    elif x=='r':
+        print("right backward")
+        GPIO.output(in1,GPIO.LOW)
+        GPIO.output(in2,GPIO.HIGH)
+        temp1=0
+        x='z'
+
+    elif x=='a':
+        print("left")
+        if(temp1==1):
+          GPIO.output(in3,GPIO.HIGH)
+          GPIO.output(in4,GPIO.LOW)
+          print("left forward")
+          x='z'
+        else:
+          GPIO.output(in3,GPIO.LOW)
+          GPIO.output(in4,GPIO.HIGH)
+          print("left backward")
+          x='z'
+
+    elif x=='d':
+        print("left forward")
         GPIO.output(in3,GPIO.HIGH)
         GPIO.output(in4,GPIO.LOW)
         temp1=1
         x='z'
 
-    elif x=='b':
-        print("backward")
+    elif x=='f':
+        print("left backward")
         GPIO.output(in3,GPIO.LOW)
         GPIO.output(in4,GPIO.HIGH)
-        temp1=0
+        temp1=1
         x='z'
+
+    elif x=='s':
+        print("left stop")
+        GPIO.output(in3,GPIO.LOW)
+        GPIO.output(in4,GPIO.LOW)
+        temp1=1
+        x='z'
+
 
     elif x=='l':
         print("low")
-        p.ChangeDutyCycle(25)
+        pwma.ChangeDutyCycle(25)
+        pwmb.ChangeDutyCycle(25)
         x='z'
 
     elif x=='m':
         print("medium")
-        p.ChangeDutyCycle(50)
+        pwma.ChangeDutyCycle(50)
+        pwmb.ChangeDutyCycle(50)
         x='z'
 
     elif x=='h':
         print("high")
-        p.ChangeDutyCycle(75)
+        pwma.ChangeDutyCycle(75)
+        pwmb.ChangeDutyCycle(75)
         x='z'
-     
-    
-    elif x=='e':
+
+
+    elif x=='x':
         GPIO.cleanup()
         print("GPIO Clean up")
         break
